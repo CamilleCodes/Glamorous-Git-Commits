@@ -9,12 +9,10 @@ COMMIT_CONFIG_FILE="$HOME/.config/$PROGRAM_NAME/commit_types.conf"
 if [ -f "$COMMIT_CONFIG_FILE" ]; then 
   IFS="="
   while read key value
-  do
-    # do something
+  do 
     commit_types["$key"]="$value"
   done < "$COMMIT_CONFIG_FILE"
 fi
-
 
 NL=$'\n'
 
@@ -23,7 +21,7 @@ COMMIT_TYPE_KEY=$(gum choose "${!commit_types[@]}") || exit 1
 echo "$COMMIT_TYPE_KEY"
 COMMIT_TYPE=${commit_types[$COMMIT_TYPE_KEY]}
 
-# Example scope: feat(lang): add Japanese language
+# Example commit with scope: feat(lang): add Japanese language
 # See https://www.conventionalcommits.org/en/v1.0.0/ for more examples / references
 SCOPE=$(gum input --placeholder "$COMMIT_TYPE (optional - enter a scope)") || exit 1
 
