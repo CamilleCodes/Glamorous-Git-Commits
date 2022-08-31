@@ -1,7 +1,10 @@
-# Commit Script
+# Glamorous Git Commits
 
-This is a simple script to help write git commits from the Charm Bracelet Gum [tutorial](https://github.com/charmbracelet/gum).
+This is a simple script to help write git commits based on the [Charm Bracelet Gum tutorial](https://github.com/charmbracelet/gum).
 
-# Notes
+# Dependencies
 
-This script uses bash and requires bash >= 4.
+* Gum
+* Bash
+
+Note: This script requires bash >= 4.
