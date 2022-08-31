@@ -17,7 +17,8 @@ fi
 
 
 # Ask for the commit type
-COMMIT_TYPE=$(gum choose "${!commit_types[@]}")
+COMMIT_TYPE_KEY=$(gum choose "${!commit_types[@]}")
+COMMIT_TYPE=${commit_types[$COMMIT_TYPE_KEY]}
 
 # Example scope: feat(lang): add Japanese language
 # See https://www.conventionalcommits.org/en/v1.0.0/ for more examples / references
