@@ -1,9 +1,23 @@
-#!/bin/sh
+#!/bin/bash
+PROGRAM_NAME="gcm"
+
+# Commit types key pairings
+declare -A commit_types
+
+COMMIT_CONFIG_FILE="$HOME/.config/$PROGRAM_NAME/commit_types.conf"
+
+if [ -f "$COMMIT_CONFIG_FILE" ]; then 
+  IFS="="
+  while read key value
+  do
+    # do something
+    commit_types["$key"]="$value"
+  done < "$COMMIT_CONFIG_FILE"
+fi
+
 
 # Ask for the commit type
-COMMIT_TYPE=$(gum choose "add new feature" "add piece of code" "refactor" "remove something"\
-  "move or rename something" "documentation" "bug fix" "checks / compliance" "improve UI / add assets" \
-  "improve performance" "merge a branch")
+COMMIT_TYPE=$(gum choose "${!commit_types[@]}")
 
 # Example scope: feat(lang): add Japanese language
 # See https://www.conventionalcommits.org/en/v1.0.0/ for more examples / references
