@@ -1,16 +1,19 @@
 #!/bin/bash
 { # This ensures the entire script is downloaded #
 
+  PROGRAM_NAME="ggc"
+
   declare -r GGC_REPO="https://github.com/envpcamille/Glamorous-Git-Commits.git"
 
   declare -r XDG_DATA_HOME="${XDG_DATA_HOME:-"$HOME/.local/share"}"
   declare -r XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-"$HOME/.config"}"
   declare -r BIN_INSTALL_PATH="$HOME/.local/bin"
 
-  declare -r GGC_BASE_DIR="${GGC_BASE_DIR:-"$XDG_DATA_HOME/ggc"}"
+  declare -r GGC_BASE_DIR="${GGC_BASE_DIR:-"$XDG_DATA_HOME/$PROGRAM_NAME"}"
   declare -r GGC_COMMIT_FILE="$GGC_BASE_DIR/commit.sh"
-  declare -r GGC_CONFIG_DIR="${GGC_CONFIG_DIR:-"$XDG_CONFIG_HOME/ggc"}"
+  declare -r GGC_CONFIG_DIR="${GGC_CONFIG_DIR:-"$XDG_CONFIG_HOME/$PROGRAM_NAME"}"
   declare -r GGC_CONFIG_FILE="$GGC_CONFIG_DIR/commit_types.conf"
+  declare -r GGC_INSTALL_PATH="$BIN_INSTALL_PATH/$PROGRAM_NAME"
 
   function msg() {
     local format="\n\t%s\n\n"
@@ -21,14 +24,14 @@
   }
 
   function conflict_check() {
-     if [ -f "$BIN_INSTALL_PATH/ggc" ]; then
-       msg "A program with the name 'ggc' already exists at this path:" "$BIN_INSTALL_PATH/ggc"
+     if [ -f "$GGC_INSTALL_PATH" ]; then
+       msg "A program with the name '$PROGRAM_NAME' already exists at this path:" "$GGC_INSTALL_PATH"
        echo "Installation aborted."
        exit 1
      fi
 
      if command -v ggc &>/dev/null; then
-       echo "A program that uses command 'ggc' already exists."
+       echo "A program that uses command '$PROGRAM_NAME' already exists."
        echo "Installation aborted."
        exit 1
      fi
@@ -50,7 +53,7 @@
 
   # Clone repository
   function clone_ggc() {
-    msg "Cloning repository:" "https://github.com/envpcamille/Glamorous-Git-Commits"
+    msg "Cloning repository:" "$GGC_REPO"
   
     if [ -d "$GGC_BASE_DIR" ]; then
       msg "Directory already exists:" "$GGC_BASE_DIR"
@@ -84,7 +87,7 @@
 
      chmod u+x "$GGC_COMMIT_FILE"
 
-     ln -s "$GGC_COMMIT_FILE" "$BIN_INSTALL_PATH/ggc"
+     ln -s "$GGC_COMMIT_FILE" "$GGC_INSTALL_PATH"
    }
 
    function verify_installation() {
@@ -101,8 +104,8 @@
       exit 1
      fi
 
-     if [ ! -f "$BIN_INSTALL_PATH/ggc" ]; then
-      echo "Couldn't find $BIN_INSTALL_PATH/ggc"
+     if [ ! -f "$GGC_INSTALL_PATH" ]; then
+      echo "Couldn't find $GGC_INSTALL_PATH"
       exit 1
      fi
 
@@ -129,7 +132,7 @@
      verify_installation
      print_cat
 
-     msg "Program installed at:" "$BIN_INSTALL_PATH/ggc"
+     msg "Program installed at:" "$GGC_INSTALL_PATH"
 
      echo "Installation complete."
    }
