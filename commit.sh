@@ -1,17 +1,19 @@
 #!/bin/bash
-PROGRAM_NAME="gcm"
+PROGRAM_NAME="ggc"
 
 # Commit types key pairings
 declare -A commit_types
 
-COMMIT_CONFIG_FILE="$HOME/.config/$PROGRAM_NAME/commit_types.conf"
+declare -r XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-"$HOME/.config"}"
+declare -r GGC_CONFIG_DIR="${GGC_CONFIG_DIR:-"$XDG_CONFIG_HOME/$PROGRAM_NAME"}"
+declare -r GGC_CONFIG_FILE="$GGC_CONFIG_DIR/commit_types.conf"
 
-if [ -f "$COMMIT_CONFIG_FILE" ]; then 
+if [ -f "$GGC_CONFIG_FILE" ]; then 
   IFS="="
   while read key value
   do 
     commit_types["$key"]="$value"
-  done < "$COMMIT_CONFIG_FILE"
+  done < "$GGC_CONFIG_FILE"
 fi
 
 NL=$'\n'
