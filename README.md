@@ -14,7 +14,7 @@ Note: This script requires bash >= 4.
 Run this command in your terminal:
 
 ```bash
-curl -s https://raw.githubusercontent.com/envpcamille/Glamorous-Git-Commits/install.sh | bash
+curl -s https://raw.githubusercontent.com/envpcamille/Glamorous-Git-Commits/main/install.sh | bash
 ```
 
 By default, the commit script will be put in `$HOME/.local/bin/ggc`.
