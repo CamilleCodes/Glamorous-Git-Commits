@@ -13,6 +13,21 @@
   declare -r GGC_CONFIG_DIR="${GGC_CONFIG_DIR:-"$XDG_CONFIG_HOME/ggc"}"
   declare -r GGC_CONFIG_FILE="$GGC_CONFIG_DIR/commit_types.conf"
 
+
+  function conflict_check() {
+     if [ -f "$BIN_INSTALL_PATH/ggc" ]; then
+       msg "A program with the name 'ggc' already exists at this path:" "$BIN_INSTALL_PATH/ggc"
+       echo "Installation aborted."
+       exit 1
+     fi
+
+     if command -v ggc &>/dev/null; then
+       echo "A program that uses command 'ggc' already exists."
+       echo "Installation aborted."
+       exit 1
+     fi
+   }
+
   # Check for required dependencies
   function check_system_dependencies() {
     # Git & Gum
