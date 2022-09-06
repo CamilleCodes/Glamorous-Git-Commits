@@ -1,7 +1,6 @@
 #!/bin/bash
 { # This ensures the entire script is downloaded #
 
-
   declare -r GGC_REPO="https://github.com/envpcamille/Glamorous-Git-Commits.git"
 
   declare -r XDG_DATA_HOME="${XDG_DATA_HOME:-"$HOME/.local/share"}"
@@ -13,6 +12,13 @@
   declare -r GGC_CONFIG_DIR="${GGC_CONFIG_DIR:-"$XDG_CONFIG_HOME/ggc"}"
   declare -r GGC_CONFIG_FILE="$GGC_CONFIG_DIR/commit_types.conf"
 
+  function msg() {
+    local format="\n\t%s\n\n"
+    local title="$1"
+    local text="$2"
+
+    printf "$title$format" "$text"
+  }
 
   function conflict_check() {
      if [ -f "$BIN_INSTALL_PATH/ggc" ]; then
@@ -44,10 +50,10 @@
 
   # Clone repository
   function clone_ggc() {
-    echo "Cloning repository: https://github.com/envpcamille/Glamorous-Git-Commits"
-
+    msg "Cloning repository:" "https://github.com/envpcamille/Glamorous-Git-Commits"
+  
     if [ -d "$GGC_BASE_DIR" ]; then
-      echo "$GGC_BASE_DIR already exists."
+      msg "Directory already exists:" "$GGC_BASE_DIR"
       return
     fi
 
@@ -61,7 +67,9 @@
    function copy_config() {
      if [ -f "$GGC_CONFIG_FILE" ]; then
        # Backup the existing file
-       echo "Backing up: $GGC_CONFIG_FILE to $GGC_CONFIG_FILE.bak"
+       msg "Backing up:" "$GGC_CONFIG_FILE"
+       msg "to:" "$GGC_CONFIG_FILE.bak"
+
        mv "$GGC_CONFIG_FILE" "$GGC_CONFIG_FILE.bak"
      fi
 
@@ -99,16 +107,31 @@
      fi
 
      echo "Installation verified."
-     
    }
 
+   function print_cat() {
+     echo ""
+     echo "            __..--''\`\`---....___   _..._    __"
+     echo " /// //_.-'    .-/\";  \`        \`\`<._  \`\`.''_ \`. / // /"
+     echo "///_.-' _..--.'_    \                    \`( ) ) // //"
+     echo "/ (_..-' // (< _     ;_..__               ; \`' / ///"
+     echo " / // // //  \`-._,_)' // / \`\`--...____..-' /// / //"
+     echo ""
+  }
+
    function main() {
-     echo "Hello, world"
+     echo "Beginning Glamorous Git Commits installation..."
+     conflict_check
      check_system_dependencies
      clone_ggc
      copy_config
      add_symlink
      verify_installation
+     print_cat
+
+     msg "Program installed at:" "$BIN_INSTALL_PATH/ggc"
+
+     echo "Installation complete."
    }
 
    main
