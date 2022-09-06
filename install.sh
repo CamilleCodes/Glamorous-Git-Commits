@@ -6,6 +6,7 @@
 
   declare -r XDG_DATA_HOME="${XDG_DATA_HOME:-"$HOME/.local/share"}"
   declare -r XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-"$HOME/.config"}"
+  declare -r BIN_INSTALL_PATH="$HOME/.local/bin"
 
   declare -r GGC_BASE_DIR="${GGC_BASE_DIR:-"$XDG_DATA_HOME/ggc"}"
   declare -r GGC_COMMIT_FILE="$GGC_BASE_DIR/commit.sh"
@@ -19,6 +20,7 @@
       echo "Missing required dependency: Git"
       exit 1
     fi
+
     if ! command -v gum &>/dev/null; then
       echo "Missing required dependency: Gum"
       exit 1
@@ -48,7 +50,18 @@
        mv "$GGC_CONFIG_FILE" "$GGC_CONFIG_FILE.bak"
      fi
 
-     mkdir -p "$GGC_CONFIG_DIR" && cp "$GGC_BASE_DIR/commit_types.conf" "$GGC_CONFIG_DIR"
+     [ ! -d "$GGC_CONFIG_DIR" ] && mkdir -p "$GGC_CONFIG_DIR"
+
+     cp "$GGC_BASE_DIR/commit_types.conf" "$GGC_CONFIG_DIR"
+   }
+
+   # Add symlink pointing to commit.sh in /local/bin/
+   function add_symlink() {
+     [ ! -d "$BIN_INSTALL_PATH" ] && mkdir -p "$BIN_INSTALL_PATH" 
+
+     chmod u+x "$GGC_COMMIT_FILE"
+
+     ln -s "$GGC_COMMIT_FILE" "$BIN_INSTALL_PATH/ggc"
    }
 
    function verify_installation() {
@@ -65,6 +78,11 @@
       exit 1
      fi
 
+     if [ ! -f "$BIN_INSTALL_PATH/ggc" ]; then
+      echo "Couldn't find $BIN_INSTALL_PATH/ggc"
+      exit 1
+     fi
+
      echo "Installation verified."
      
    }
@@ -74,6 +92,7 @@
      check_system_dependencies
      clone_ggc
      copy_config
+     add_symlink
      verify_installation
    }
 
