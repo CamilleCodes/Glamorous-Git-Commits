@@ -26,3 +26,7 @@ Try it out by typing:
 ```bash
 ggc
 ```
+
+# Status
+
+While this project is usable as-is, it is currently still in development. Development is taking place on a Linux machine running PopOS / Ubuntu 22.04.
