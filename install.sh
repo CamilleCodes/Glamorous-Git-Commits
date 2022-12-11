@@ -3,7 +3,7 @@
 
   PROGRAM_NAME="ggc"
 
-  declare -r GGC_REPO="https://github.com/envpcamille/Glamorous-Git-Commits.git"
+  declare -r GGC_REPO="https://github.com/CamilleCodes/Glamorous-Git-Commits.git"
 
   declare -r XDG_DATA_HOME="${XDG_DATA_HOME:-"$HOME/.local/share"}"
   declare -r XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-"$HOME/.config"}"
